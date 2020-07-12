@@ -65,4 +65,21 @@ class Refactorer {
         }
     }
 
+    /**
+     * Pretend to execute, returning all SQL queries.
+     *
+     * @param bool $rollback
+     * @return void
+     */
+    public function pretendToExecute($rollback = false)
+    {
+        /**
+         * @todo: implement
+         *
+         * - Collect all migrations files affected
+         * - Collect all possible refactor classes
+         * - (Try to) collect all queries and return results.
+         */
+    }
+
 }
