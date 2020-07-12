@@ -38,7 +38,12 @@ class RefactorDbCommand extends Command
 
         $rollback = $this->option('rollback');
         // @todo: use up instead of run
-        $method = !$rollback ? 'run' : 'down';
+        $method = !$rollback ? 'up' : 'down';
+        $before_method = 'before'.ucfirst($method);
+
+        if(method_exists(Refactorer::class, $before_method)) {
+            app()->call(Refactorer::class.'@execute', ['class' => $class, 'method' => $before_method]);
+        }
         app()->call(Refactorer::class.'@execute', ['class' => $class, 'method' => $method]);
     }
 }
