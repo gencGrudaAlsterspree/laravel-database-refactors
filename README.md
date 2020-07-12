@@ -181,9 +181,31 @@ Add the `--rollback` option to rollback any refactors:
 php artisan db:refactor --class="UsersTableRefactor" --rollback
 ```
 
+To show the status of each refactor, similar to `migrate:status`, run:
+
+```bash
+php artisan refactor:status
+
++------+-------------------+--------------------+-------+
+| Ran? | Refactor          | Migration          | Batch |
++------+-------------------+--------------------+-------+
+| Yes  | AnotherRefactor   | SomeMigrationTable | 1     |
+| Yes  | SomeRefactorClass | -                  | 2     |
+| No   | ...Refactor       | -                  |       |
+| No   | ...Refactor       | -                  |       |
++------+-------------------+--------------------+-------+
+```
+
+Explanation of the table shown above
+- refactor `AnotherRefactor` was triggered by migration `SomeMigrationTable`.
+- refactor `SomeRefactorClass` was manually triggered with `artisan db:refactor --class=SomeRefactorClass`. 
+- all remaining refactors have not been run so far.
+
 ## Security
 
 If you discover any security issues in the original package [signifly/laravel-database-refactors:master](https://github.com/signifly/laravel-database-refactors), please email dev@signifly.com instead of using the issue tracker.
+
+If you discover any security issues in this fork, throw a PR or use the original package instead.
 
 ## Credits
 
