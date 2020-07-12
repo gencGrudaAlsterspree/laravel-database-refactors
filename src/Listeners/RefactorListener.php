@@ -18,6 +18,13 @@ use Signifly\DatabaseRefactors\Repositories\DatabaseRefactorRepository;
 
 class RefactorListener
 {
+
+    protected $refactorer;
+
+    public function __construct(Refactorer $refactorer) {
+        $this->refactorer = $refactorer;
+    }
+
     /**
      * When a refactor event was called.
      *
@@ -31,7 +38,11 @@ class RefactorListener
             throw new Exception('Invalid refactor class: '.$event->class);
         }
 
-        app()->call(Refactorer::class.'@execute', ['class' => $event->class, 'method' => $event->method, 'migration' => get_class($event->migration->migration)]);
+        $this->refactorer->execute(
+            $event->class,
+            $event->method,
+            get_class($event->migration->migration)
+        );
     }
 
     /**
