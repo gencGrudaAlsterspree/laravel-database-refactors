@@ -13,6 +13,12 @@ class Refactorer {
      */
     protected $required_methods = ['up', 'down'];
 
+    protected $repository;
+
+    public function __construct(Repositories\DatabaseRefactorRepository $repository) {
+        $this->repository = $repository;
+    }
+
     /**
      * Execute refactor class methods.
      *
@@ -22,10 +28,10 @@ class Refactorer {
      * @return mixed
      * @throws \ReflectionException
      */
-    public function execute($class, $method, Repositories\DatabaseRefactorRepository $repository)
+    public function execute($class, $method, $migration = null)
     {
-        if(!$repository->repositoryExists()) {
-            $repository->createRepository();
+        if(!$this->repository->repositoryExists()) {
+            $this->repository->createRepository();
         }
 
         $reflection  = new ReflectionClass($class);
@@ -37,7 +43,7 @@ class Refactorer {
             throw new Exception('Method down does not exist on class: '.$class);
         }
 
-        $has_run = $repository->hasRun($class);
+        $has_run = $this->repository->hasRun($class);
         if($method === 'up' && $has_run) {
             // return $this->error("Refactor class {$class} has already run.");
             throw new \Exception("Refactor class {$class} has already run.");
@@ -52,10 +58,10 @@ class Refactorer {
         $time = microtime(true) - $time;
 
         if(in_array($method, $this->required_methods)) {
-            $repository->{$method === 'down' ? 'delete' : 'log'}($class);
+            $this->repository->{$method === 'down' ? 'delete' : 'log'}($class, $migration);
         }
         if(app()->runningInConsole()) {
-            $repository->setConsoleOutput($class, $method, $time);
+            $this->repository->setConsoleOutput($class, $method, $time);
         }
     }
 
