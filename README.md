@@ -2,7 +2,13 @@
 
 > This package is an enhanced version of [`signifly/laravel-database-refactors`](https://github.com/signifly/laravel-database-refactors).
 
-The fork allows you to easily add database refactors to your Laravel app (just like the original). This fork tries to imitate the same behaviour as a migration file, using the `up` and `down` methods to refactor or rollback any refactoring made.
+The fork allows you to easily add database refactors to your Laravel app (just like the original). This fork tries to imitate the same behaviour as a migration file, using the `up` and `down` methods to refactor or rollback any refactoring made, ultimately synchronising a refactor class with a migration file.
+
+### Why this fork?
+
+The original package does not distinguish between an upward and downward migration (rollbacks) by implementing one single method called `run`. It is also not possible to trace refactors that have run so far, as with migrations using `migrate:status`. Running multiple `artisan db:refactor --class=SomeRefactorClass` could be easily done by mistake.
+
+This fork tries to solve those problems by using a repository to keep track of all refactors that have been run. By adding a `refactor` method in the migration class, the migration class and the refactor class are synchronised without the need of putting a call to the refactor class somewhere in the migrations `up` or `down` method. When synchronised, all refactor classes are controlled with the migration commands.
 
 > This package supports Laravel 6.x and 7.x.
 
@@ -17,7 +23,7 @@ composer require signifly/laravel-database-refactors
 To install this fork and _branch_, use:
 
 ```bash
-composer require wize-wiz/laravel-database-refactors:"dev-enhancments"
+composer require wize-wiz/laravel-database-refactors:"dev-enhancements"
 ```
 Where the repository for this fork is added to the `composer.json`
 
@@ -49,7 +55,7 @@ Update your `composer.json` file by adding a `database/refactors` directory to y
     },
 ```
 
-If your `classmap` has an older structure like:
+If your `classmap` has an older structure as shown below, please update to the latest [`classmap`](https://github.com/laravel/laravel/blob/a70a982cb19e2a623e59964a247562826c487f9e/composer.json#L20) (since Laravel 5.5) structure shown above.
 
 ```
     "autoload": {
@@ -61,8 +67,6 @@ If your `classmap` has an older structure like:
         }
     },
 ```
-
-Then please update to the latest `classmap` structure shown above.
 
 ## Usage
 
