@@ -4,7 +4,7 @@ namespace Signifly\DatabaseRefactors\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
-use ReflectionClass;
+use Signifly\DatabaseRefactors\Refactorer;
 
 class RefactorDbCommand extends Command
 {
@@ -13,7 +13,7 @@ class RefactorDbCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'db:refactor {--class=}';
+    protected $signature = 'db:refactor {--class=} {--rollback}';
 
     /**
      * The console command description.
@@ -26,6 +26,7 @@ class RefactorDbCommand extends Command
      * Execute the console command.
      *
      * @return mixed
+     * @todo: pretty chaotic with compatibility check `run`, we'll remove run and only use `up` and `down` as required methods.
      */
     public function handle()
     {
@@ -35,10 +36,9 @@ class RefactorDbCommand extends Command
             throw new Exception('Invalid refactor class: '.$class);
         }
 
-        if (! (new ReflectionClass($class))->hasMethod('run')) {
-            throw new Exception('Method run does not exist on: '.$class);
-        }
-
-        (new $class)->run();
+        $rollback = $this->option('rollback');
+        // @todo: use up instead of run
+        $method = !$rollback ? 'run' : 'down';
+        app()->call(Refactorer::class.'@execute', ['class' => $class, 'method' => $method]);
     }
 }

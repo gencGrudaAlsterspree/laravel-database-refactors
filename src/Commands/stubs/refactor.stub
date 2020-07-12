@@ -4,11 +4,54 @@ class DummyClass
 {
     /**
      * Run the database refactoring.
+     * Delete this method if you are using the up and down methods.
      *
      * @return void
+     * @deprecated: use `up` in favour of run
      */
     public function run()
     {
         //
     }
+
+    /**
+     * Before the migration up command starts.
+     *
+     * @return void
+     */
+    public function beforeUp()
+    {
+        //
+    }
+
+    /**
+     * Run the database refactoring when the migration up command has finished.
+     * Substitutes the method run if not present.
+     *
+     * @return void
+     */
+     public function up()
+     {
+         //
+     }
+
+    /**
+     * Before the migration down command starts.
+     *
+     * @return void
+     */
+     public function beforeDown()
+     {
+         //
+     }
+
+     /**
+      * Reverse the database refactoring when the migration down command has finished.
+      *
+      * @return void
+      */
+     public function down()
+     {
+         //
+     }
 }

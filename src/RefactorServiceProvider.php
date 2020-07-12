@@ -4,7 +4,10 @@ namespace Signifly\DatabaseRefactors;
 
 use Illuminate\Support\ServiceProvider;
 use Signifly\DatabaseRefactors\Commands\RefactorDbCommand;
+use Signifly\DatabaseRefactors\Commands\RefactorInstallCommand;
 use Signifly\DatabaseRefactors\Commands\RefactorMakeCommand;
+use Illuminate\Support\Facades\Event;
+use Signifly\DatabaseRefactors\Commands\RefactorResetCommand;
 
 class RefactorServiceProvider extends ServiceProvider
 {
@@ -19,6 +22,8 @@ class RefactorServiceProvider extends ServiceProvider
             $this->commands([
                 RefactorDbCommand::class,
                 RefactorMakeCommand::class,
+                RefactorInstallCommand::class,
+                RefactorResetCommand::class
             ]);
         }
     }
@@ -30,6 +35,6 @@ class RefactorServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        Event::subscribe(Listeners\RefactorListener::class);
     }
 }
