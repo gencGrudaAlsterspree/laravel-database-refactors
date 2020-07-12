@@ -2,10 +2,8 @@
 
 namespace Signifly\DatabaseRefactors\Commands;
 
-use Exception;
 use Illuminate\Console\Command;
-use ReflectionClass;
-use Signifly\DatabaseRefactors\Repositories\DatabaseRefactorRepository;
+use Signifly\DatabaseRefactors\Repositories\RefactorRepositoryInterface;
 
 class RefactorResetCommand extends Command
 {
@@ -28,9 +26,8 @@ class RefactorResetCommand extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(RefactorRepositoryInterface $repository)
     {
-        $repository = app(DatabaseRefactorRepository::class);
         if(!$repository->repositoryExists()) {
             return $this->info('Refactor table does not exist, nothing to reset.');
         }

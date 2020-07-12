@@ -8,6 +8,8 @@ use Signifly\DatabaseRefactors\Commands\RefactorInstallCommand;
 use Signifly\DatabaseRefactors\Commands\RefactorMakeCommand;
 use Illuminate\Support\Facades\Event;
 use Signifly\DatabaseRefactors\Commands\RefactorResetCommand;
+use Signifly\DatabaseRefactors\Repositories\DatabaseRefactorRepository;
+use Signifly\DatabaseRefactors\Repositories\RefactorRepositoryInterface;
 
 class RefactorServiceProvider extends ServiceProvider
 {
@@ -35,6 +37,7 @@ class RefactorServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(RefactorRepositoryInterface::class, DatabaseRefactorRepository::class);
         Event::subscribe(Listeners\RefactorListener::class);
     }
 }
