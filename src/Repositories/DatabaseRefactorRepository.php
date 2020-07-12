@@ -63,7 +63,7 @@ class DatabaseRefactorRepository implements RefactorRepositoryInterface {
     }
 
     /**
-     * Log that a refactor was run.
+     * Log that a refactor has run.
      *
      * @param  string  $class
      * @param  int  $batch
@@ -95,7 +95,7 @@ class DatabaseRefactorRepository implements RefactorRepositoryInterface {
      * @param $class
      * @return bool
      */
-    public function hasRan($class)
+    public function hasRun($class)
     {
         return $this->table()->where('refactor', $class)->count() > 0;
     }

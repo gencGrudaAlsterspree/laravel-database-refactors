@@ -26,7 +26,6 @@ class RefactorDbCommand extends Command
      * Execute the console command.
      *
      * @return mixed
-     * @todo: pretty chaotic with compatibility check `run`, we'll remove run and only use `up` and `down` as required methods.
      */
     public function handle()
     {
@@ -37,7 +36,6 @@ class RefactorDbCommand extends Command
         }
 
         $rollback = $this->option('rollback');
-        // @todo: use up instead of run
         $method = !$rollback ? 'up' : 'down';
         $before_method = 'before'.ucfirst($method);
 

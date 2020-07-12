@@ -30,19 +30,15 @@ class Refactorer {
 
         $reflection  = new ReflectionClass($class);
 
-        if ($method === 'run' && !$reflection->hasMethod('run')) {
-            // up replaces run if not present.
-            if(!$reflection->hasMethod('up')) {
-                throw new Exception('Method run or up does not exist on class: '.$class);
-            }
-            $method = 'up';
+        if($method === 'up' && !$reflection->hasMethod('up')) {
+            throw new Exception('Method up does not exist on class: '.$class);
         }
         elseif($method === 'down' && !$reflection->hasMethod('down')) {
             throw new Exception('Method down does not exist on class: '.$class);
         }
 
-        $has_run = $repository->hasRan($class);
-        if(($method === 'run' || $method === 'up') && $has_run) {
+        $has_run = $repository->hasRun($class);
+        if($method === 'up' && $has_run) {
             // return $this->error("Refactor class {$class} has already run.");
             throw new \Exception("Refactor class {$class} has already run.");
         }
