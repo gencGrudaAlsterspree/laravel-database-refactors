@@ -121,6 +121,30 @@ class SomeRefactorClass
 - The `beforeUp` and `beforeDown` methods are called before the **migration file** executes its `up` or `down` method. These methods are optional and can be removed as such.
 - The `up` and `down` methods are executed when the **migration file** finished executing `up` or `down`. These methods are required and an exception will be thrown when missing.
 
+### Compatability
+
+If you wish to remain compatible with the original version of this package, just add an `up` and `down` method and let `up` wrap the original `run` method call, while keeping the `down` method empty.
+
+```php
+<?php
+
+class SomeRefactorClass
+{
+    public function run() 
+    {
+        // original 
+    }
+    
+    public function up()
+    {
+        $this->run();
+    }
+    
+    // keep empty
+    public function down() {}
+}
+```
+
 ### Link to a migration file
 
 In order to link the refactor class and migration file, we add a `refactor` method in the migration file returning a string with the class name of our refactor class. 
@@ -137,12 +161,12 @@ class SimpleMigration extends Migration
 
     public function up() 
     {
-        // 
+        // migrate up
     }
     
     public function down()
     {
-        //
+        // migrate down
     }
     
     public function refactor() 
