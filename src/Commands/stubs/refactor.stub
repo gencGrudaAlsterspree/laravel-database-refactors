@@ -17,28 +17,28 @@ class DummyClass
      *
      * @return void
      */
-     public function up()
-     {
-         //
-     }
+    public function up()
+    {
+        //
+    }
 
     /**
      * Before the migration down command starts.
      *
      * @return void
      */
-     public function beforeDown()
-     {
-         //
-     }
+    public function beforeDown()
+    {
+        //
+    }
 
-     /**
-      * Reverse the database refactoring when the migration down command has finished.
-      *
-      * @return void
-      */
-     public function down()
-     {
-         //
-     }
+    /**
+     * Reverse the database refactoring when the migration down command has finished.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        //
+    }
 }
