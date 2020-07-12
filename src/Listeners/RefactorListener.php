@@ -31,7 +31,7 @@ class RefactorListener
             throw new Exception('Invalid refactor class: '.$event->class);
         }
 
-        app()->call(Refactorer::class.'@execute', ['class' => $event->class, 'method' => $event->method]);
+        app()->call(Refactorer::class.'@execute', ['class' => $event->class, 'method' => $event->method, 'migration' => get_class($event->migration->migration)]);
     }
 
     /**

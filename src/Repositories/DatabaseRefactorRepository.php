@@ -5,15 +5,21 @@ namespace Signifly\DatabaseRefactors\Repositories;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Throwable;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Collection;
 
 class DatabaseRefactorRepository implements RefactorRepositoryInterface {
 
     protected $exists;
+    protected $path;
+    protected $files;
     protected $resolver;
     protected $table;
     protected $connection;
 
-    public function __construct(Resolver $resolver) {
+    public function __construct(Resolver $resolver, Filesystem $files) {
+        $this->path = database_path('refactors');
+        $this->files = $files;
         $this->resolver = $resolver;
         $this->table = 'refactors';
     }
@@ -98,6 +104,36 @@ class DatabaseRefactorRepository implements RefactorRepositoryInterface {
     public function hasRun($class)
     {
         return $this->table()->where('refactor', $class)->count() > 0;
+    }
+
+    /**
+     * Get the completed refactors.
+     *
+     * @return mixed
+     */
+    public function getRun()
+    {
+        return $this->table()
+            ->orderBy('refactor', 'asc')
+            ->orderBy('batch', 'asc')
+            ->get();
+    }
+
+    /**
+     * Get all available refactor classes.
+     *
+     * @param $path
+     * @return mixed
+     */
+    public function getRefactorClasses() {
+        return Collection::make($this->files->glob($this->path.'/*.php'))
+            ->map(function($file) {
+                $name = explode(DIRECTORY_SEPARATOR, $file);
+                $name = $name[count($name)-1];
+                return ['class' => str_replace('.php', '', $name), 'file' => $file];
+            })
+            ->keyBy('class')
+            ->all();
     }
 
     /**
