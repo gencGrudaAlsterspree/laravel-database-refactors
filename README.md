@@ -229,6 +229,11 @@ Explanation of the table shown above
 - refactor `SomeRefactorClass` was manually triggered with `artisan db:refactor --class=SomeRefactorClass`. 
 - all remaining refactors have not been run so far.
 
+## Todo
+
+- `--pretend` support
+- snapshots
+
 ## Security
 
 If you discover any security issues in the original package [signifly/laravel-database-refactors:master](https://github.com/signifly/laravel-database-refactors), please email dev@signifly.com instead of using the issue tracker.
