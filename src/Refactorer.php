@@ -82,4 +82,17 @@ class Refactorer {
          */
     }
 
+    /**
+     * Create a snapshot of the original tables to be refactored, if it fails, reset the tables
+     * before the refactoring took place.
+     *
+     * @return void
+     */
+    public function createSnapshot()
+    {
+        /**
+         * @todo: implement
+         */
+    }
+
 }
