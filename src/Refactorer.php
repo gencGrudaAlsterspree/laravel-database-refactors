@@ -3,6 +3,7 @@
 namespace Signifly\DatabaseRefactors;
 
 use ReflectionClass;
+use Exception;
 
 class Refactorer {
 
@@ -37,7 +38,12 @@ class Refactorer {
         $reflection  = new ReflectionClass($class);
 
         if($method === 'up' && !$reflection->hasMethod('up')) {
-            throw new Exception('Method up does not exist on class: '.$class);
+            if($reflection->hasMethod('run')) {
+                $method = 'run';
+            }
+            else {
+                throw new Exception('Method up does not exist on class: ' . $class);
+            }
         }
         elseif($method === 'down' && !$reflection->hasMethod('down')) {
             throw new Exception('Method down does not exist on class: '.$class);
