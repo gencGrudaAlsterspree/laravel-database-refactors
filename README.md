@@ -20,12 +20,7 @@ You can install the original package via composer:
 composer require signifly/laravel-database-refactors
 ```
 
-To install this fork and _branch_, use:
-
-```bash
-composer require wize-wiz/laravel-database-refactors:"dev-enhancements"
-```
-Where the repository for this fork is added to the `composer.json`
+To install this fork and _branch_, add the repository for this fork to your `composer.json`:
 
 ```bash
     ..
@@ -36,6 +31,12 @@ Where the repository for this fork is added to the `composer.json`
         },
     }
     ..
+```
+
+And install using:
+
+```bash
+composer require signifly/laravel-database-refactors:"dev-enhancements"
 ```
 
 ## Configuration
